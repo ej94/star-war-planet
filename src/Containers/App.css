@@ -1,0 +1,12 @@
+@font-face {
+font-family: 'Alleyster Regular';
+font-style: normal;
+font-weight: normal;
+src: local('Alleyster Regular'), url('Alleyster (DEMO).woff') format('woff');
+}
+
+h1{
+	font-family:'Alleyster Regular';
+	font-weight:200;
+	color:#0ccac4;
+}
