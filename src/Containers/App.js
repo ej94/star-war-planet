@@ -1,15 +1,31 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import CardList from '../Components/CardList';
 import SearchBox from '../Components/SearchBox';
 import Scroll from '../Components/Scroll';
 import './App.css';
+import {setSearchField} from '../action'
+
+ const mapStateToProps=state=>{
+      return{
+          searchField:state.searchField
+      }
+  }
+
+ const mapDispatchToProps=(dispatch)=>{
+     return {
+        onSearchChange:(event)=>dispatch(setSearchField(event.target.value))
+     }
+  }
+
+
+
 
 class App extends Component{
 	constructor(){
 		super()
 		this.state={
 			planets:[],
-			searchField:''
 		}
 	}
      componentDidMount() {
@@ -40,14 +56,12 @@ class App extends Component{
 		);
 	}
 
-	onSearchChange = (event) => {
-		this.setState({ searchField: event.target.value })
-	}
 	render(){
-		const {planets,searchField} = this.state;
+		const {planets} = this.state;
+		const {searchField,onSearchChange}=this.props;
 		 if (!planets.length) {
-        return <div className='tc'><h1>Loading</h1></div>;
-    }
+		    return <div className='tc'><h1>Loading</h1></div>;
+         }
 		const filteredPlanets = planets.filter(planet=>{
 			return planet.name.toLowerCase().includes(
 				searchField.toLowerCase())
@@ -61,7 +75,7 @@ class App extends Component{
 		return (
         <div className='tc'>
             <h1 className='f2'>StarWarPlanet</h1>
-            <SearchBox searchChange={this.onSearchChange}/>
+            <SearchBox searchChange={onSearchChange}/>
             <Scroll>
                 <CardList planets = {filteredPlanets}/>
             </Scroll>
@@ -70,6 +84,6 @@ class App extends Component{
    }
 }
 
-export default (App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);
 
 
